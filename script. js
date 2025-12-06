@@ -1,0 +1,78 @@
+// Tombol aktif (hover & click)
+document.querySelectorAll(".btn.social").forEach(btn => {
+    btn.addEventListener("mousedown", () => btn.classList.add("active"));
+    btn.addEventListener("mouseup", () =>
+        setTimeout(() => btn.classList.remove("active"), 120)
+    );
+});
+
+// Efek sparkle klik & scroll
+document.addEventListener('DOMContentLoaded', function () {
+    const sparkles = document.querySelectorAll('.sparkle');
+
+    sparkles.forEach(sparkle => {
+        sparkle.addEventListener('click', function () {
+            this.style.transform = 'scale(1.5)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 300);
+        });
+    });
+
+    let sparkleTimeout = null;
+    window.addEventListener('scroll', function () {
+        if (sparkleTimeout) return;
+        sparkleTimeout = setTimeout(() => {
+            sparkleTimeout = null;
+        }, 500);
+
+        if (Math.random() > 0.95) {
+            const newSparkle = document.createElement('span');
+            newSparkle.classList.add('sparkle');
+            newSparkle.textContent = '✨';
+            newSparkle.style.position = 'absolute';
+            newSparkle.style.top = `${Math.random() * 50 + 10}%`;
+            newSparkle.style.right = `${Math.random() * 30 + 10}%`;
+            newSparkle.style.animationDelay = `${Math.random()}s`;
+            newSparkle.style.fontSize = '18px';
+            newSparkle.style.zIndex = '10';
+
+            const container = document.querySelector('.sparkles');
+            if (container) container.appendChild(newSparkle);
+
+            setTimeout(() => {
+                newSparkle.remove();
+            }, 3000);
+        }
+    });
+});
+
+// === UPLOAD VIDEO HOBBY ===
+const uploadVid = document.getElementById("uploadVideo");
+const hobbyVid = document.getElementById("hobbyVideo");
+
+if (uploadVid && hobbyVid) {
+    uploadVid.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            hobbyVid.src = URL.createObjectURL(file);
+            hobbyVid.play().catch(e => console.log("Autoplay blocked"));
+        }
+    });
+}
+
+// === ICON BERTABURAN ===
+const pages = document.querySelectorAll(".sparkles");
+const icons = ["🌸","✨","⭐","🌼","🍀","🎀","📷","☕","🎶","💗","✈️"];
+
+pages.forEach(page => {
+    for (let i = 0; i < 30; i++) {
+        const icon = document.createElement("div");
+        icon.classList.add("floating-icon");
+        icon.textContent = icons[Math.floor(Math.random() * icons.length)];
+        icon.style.left = Math.random() * 100 + "vw";
+        icon.style.top = Math.random() * 100 + "vh";
+        icon.style.fontSize = (20 + Math.random() * 25) + "px";
+        page.appendChild(icon);
+    }
+});
